@@ -1,0 +1,23 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Maunts.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Bosses" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;33288#Yogg&lt;/string&gt;
+  &lt;string&gt;36597#The Lich King&lt;/string&gt;
+  &lt;string&gt;57962#Madness - Deathwing&lt;/string&gt;
+  &lt;string&gt;55294#Ultrax&lt;/string&gt;
+  &lt;string&gt;52530#Alyz&lt;/string&gt;
+  &lt;string&gt;52409#Raggy&lt;/string&gt;
+  &lt;string&gt;10184#Onyxia&lt;/string&gt;
+  &lt;string&gt;28859#Malygos&lt;/string&gt;
+  &lt;string&gt;46753#A'Akir&lt;/string&gt;
+  &lt;string&gt;60410#Elegon&lt;/string&gt;
+  &lt;string&gt;68476#Horridon&lt;/string&gt;
+  &lt;string&gt;68177#J-Kun&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
