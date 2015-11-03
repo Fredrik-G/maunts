@@ -3,9 +3,10 @@ from urllib.parse import quote
 import io
 from os import path, system
 from sys import exit
+import json
 
 base_url = ['http://eu.battle.net/api/wow/character/',
-			 "<REALM>", "/", "<CHARACTER", "?fields=progression"]
+             "<REALM>", "/", "<CHARACTER", "?fields=progression"]
 main_realm = "Ravencrest"
 
 def check_if_file_exist(filename):
@@ -90,49 +91,28 @@ class Mauntruns:
     def read_api(self, url):
         response = urlopen(url)
         html = response.read()
-        lines = html.decode(encoding="UTF-8").split("{")
+        lines = html.decode(encoding="UTF-8")
+        result = json.loads(lines)
+        self.process_json(result)
 
-        for line in lines:
-            achi_line = '''"lastModified":'''
-            if(line.startswith(achi_line)):
-               self.process_achi(line)
-            for boss_id in self.boss_ids:
-                boss_line = '"id":' + boss_id
+    def process_json(self, json):
+        self.characters[-1].achis = json['achievementPoints']
+       
+        raids = json['progression']['raids']
+        for raid in raids:
+            for boss in raid['bosses']:
+                 for boss_id in self.boss_ids:
+                    if(boss['id'] == int(boss_id)):
+                        self.process_kill(boss)
 
-                if(line.startswith(boss_line)):
-                    self.process_kill(line)
+    def process_kill(self, progressBoss):
+        boss = Boss(progressBoss['name'])
 
-
-    def process_kill(self, line):
-        splitted_lines = line.split(':')
-        boss_name = splitted_lines[2].split(',')[0]
-
-        boss = Boss(boss_name)
-
-        if("lfr" in line):
-            normal_kills = int(splitted_lines[5].split(',')[0])            
-        else:
-            normal_kills = int(splitted_lines[3].split(',')[0])
-            
-        boss.normal_kills = normal_kills
-        try:
-            if("lfr" in line):
-                heroic_kills = int(splitted_lines[7].split(',')[0])
-            else:
-                heroic_kills = int(splitted_lines[5].split(',')[0])
-
-            boss.heroic_kills = heroic_kills
-        except:
-            pass
-        finally:
-            self.characters[-1].bosses[boss.name] = boss
-
-    def process_achi(self, line):
-        name = line.split(',')[1].split(':')[1]
-        achis = line.split(',')[8].split(':')[1]
-
-        self.characters[-1].achis = achis
-        #print("%s - %s" % (name, achis))
+        boss.normal_kills = int(progressBoss['normalKills'])
+        if('heroicKills' in progressBoss):
+            boss.heroic_kills = progressBoss['heroicKills']
+       
+        self.characters[-1].bosses[boss.name] = boss
 
     def check_if_same_account(self):
         achis = self.characters[0].achis
@@ -145,7 +125,6 @@ class Mauntruns:
 
     def get_total_kills(self):
         total_kills = {}
-
         for character in self.characters:
             for key, kills in character.bosses.items():
                 boss = Boss(key)
