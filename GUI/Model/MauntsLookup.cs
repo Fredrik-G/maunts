@@ -76,9 +76,6 @@ namespace Maunts
         /// </summary>
         public void RunLookup()
         {
-            Settings.Default.Reset();
-            Settings.Default.Reload();
-
             _processedCharacters = 0;
             _webClients.Clear();
             Characters.Clear();
