@@ -13,3 +13,11 @@ The maunts application will lookup given characters and check for their progress
 ![GUI Application](/../Screenshots/maunts_-_GUI.png?raw=true "GUI Application")
 ### Spreadsheet
 ![Spreadsheet Application](/../Screenshots/maunts_-_Spreadsheet.png?raw=true "Spreadsheet Application")
+
+
+Creating this application taught me several interesting techniques:
+* Using an API to read data.
+* Using JSON to process data.
+* Creating a GUI using Windows Presentation Foundation (WPF) and XML/XAML-style designing.
+* Creating scripts using Javascript / Google Apps Script.
+* Using scripts to load data into a spreadsheet.
