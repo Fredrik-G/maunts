@@ -105,3 +105,59 @@ function getTotal(kills){
   }
   return buildKillString(normalKills, heroicKills);
 }
+
+/**
+ * Checks if given character has collected given bosses.
+ * @param {String} character
+ * @param {String} realm
+ * @param {Array of Strings} bosses
+ * @return {Array} collected mounts
+ */
+function checkIfOwned(character, realm, bosses){
+ var collectedMounts = [];
+ for(var i = 0; i < bosses[0].length; i++){
+    if(bosses[0][i] != "" && bosses[0][i].indexOf("#") != -1){
+      var IDs = bosses[0][i].split("#");
+      IDs.splice(0, 2);
+      collectedMounts.push([IDs, 0]);     
+    }
+  }
+
+  var characterMounts = getCharacterJSON(character, realm, "mounts");
+  for(var i = 0; i < characterMounts.mounts.collected.length; i++){
+    var mount = characterMounts.mounts.collected[i];
+    for(var j = 0; j < collectedMounts.length; j++){
+      for(var k = 0; k < collectedMounts[j][0].length; k++){
+        if(mount.itemId == parseInt(collectedMounts[j][0][k])){
+          collectedMounts[j][1] += 1;
+        } 
+      }
+    }
+  }      
+ return collectedMounts;
+}
+
+/**
+ * Reads the API and gets a character JSON-object based on given data.
+ * @param {String} name
+ * @param {String} realm
+ * @return {Object} JSON-object
+ */
+function getCharacterJSON(name, realm, field){
+  var url = "http://eu.battle.net/api/wow/character/"+realm+"/"+name+"?fields="+field;
+  var characterString = UrlFetchApp.fetch(url).getContentText();
+  return JSON.parse(characterString);  
+}
+
+/**
+ * Forces cells to update by changing the value of a dummy cell. 
+ */
+function forceUpdate()
+{
+  var newValue = "dummy";
+  var cell = SpreadsheetApp.getActiveSheet().getRange('A20');
+  if(cell.getValue() == newValue){
+    var newValue = "dummy2"
+  }
+  cell.setValue(newValue);
+}
