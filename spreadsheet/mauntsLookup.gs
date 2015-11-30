@@ -11,14 +11,7 @@
  * @return {Array} result
  */
 function readMaunts(name, realm, bosses) {
-  //for debugging
-  if(!name){
-    name = "Fg";
-  }
-  if(!realm){
-    realm = "Ravencrest";
-  }
-
+  //Set up boss IDs
   var bossIds = [];
   for(var i = 0; i < bosses[0].length; i++){
     if(bosses[0][i] != "" && bosses[0][i].indexOf("#") != -1){
@@ -31,6 +24,7 @@ function readMaunts(name, realm, bosses) {
 
   var characterProgress = JSON.parse(characterString);
 
+  //Calculate boss kills for each boss ID.
   var kills = [];
   for(i = 0; i < bossIds.length; i++){
     for(j = 0; j < characterProgress.progression.raids.length; j++){
@@ -49,10 +43,7 @@ function readMaunts(name, realm, bosses) {
     }
   }
   
-  if(kills.length > bossIds.length){
-    return "cpbug,refresha mig";
-  }
-  
+  //Get a string with current date.
   var currentDate = new Date();
   var lastUpdate = (currentDate.getMonth() + 1) + "/" 
   + currentDate.getDate() + "/" 
@@ -156,7 +147,7 @@ function forceUpdate()
 {
   var newValue = "dummy";
   var cell = SpreadsheetApp.getActiveSheet().getRange('A20');
-  if(cell.getValue() == newValue){
+  if(cell.getValue() != "" && cell.getValue() == newValue){
     var newValue = "dummy2"
   }
   cell.setValue(newValue);
